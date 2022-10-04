@@ -7,6 +7,7 @@ import {
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from './atoms';
+import DragabbleCard from './Components/DragabbleCard';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -32,13 +33,6 @@ const Board = styled.div`
 	min-height: 200px;
 `;
 
-const Card = styled.div`
-	border-radius: 5px;
-	padding: 10px 10px;
-	margin-bottom: 5px;
-	background-color: ${(props) => props.theme.cardColor};
-`;
-
 function App() {
 	const [toDos, setToDos] = useRecoilState(toDoState);
 	const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
@@ -60,17 +54,7 @@ function App() {
 						{(magic) => (
 							<Board ref={magic.innerRef} {...magic.droppableProps}>
 								{toDos.map((toDo, index) => (
-									// dnd에서는 key와 draggableId는 같아야함
-									<Draggable key={toDo} draggableId={toDo} index={index}>
-										{(magic) => (
-											<Card
-												ref={magic.innerRef}
-												{...magic.dragHandleProps}
-												{...magic.draggableProps}>
-												{toDo}
-											</Card>
-										)}
-									</Draggable>
+									<DragabbleCard key={toDo} index={index} toDo={toDo} />
 								))}
 								{/* placeholder: 드래그 하는 동안 영역을 고정시킴 */}
 								{magic.placeholder}
