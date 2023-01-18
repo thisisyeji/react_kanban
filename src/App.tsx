@@ -65,6 +65,13 @@ const App = () => {
 					))}
 				</Boards>
 			</Wrapper>
+			<Droppable droppableId='trashBin'>
+				{(magic) => (
+					<DeleteBox ref={magic.innerRef} {...magic.droppableProps}>
+						<FontAwesomeIcon icon={faTrashCan} />
+					</DeleteBox>
+				)}
+			</Droppable>
 		</DragDropContext>
 	);
 };
