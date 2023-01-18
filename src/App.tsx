@@ -6,11 +6,11 @@ import Board from './Components/Board';
 
 const Wrapper = styled.div`
 	display: flex;
-	width: 100vw;
-	margin: 0 auto;
 	justify-content: center;
 	align-items: center;
+	width: 100vw;
 	height: 100vh;
+	margin: 0 auto;
 `;
 
 const Boards = styled.div`
@@ -21,13 +21,12 @@ const Boards = styled.div`
 	gap: 10px;
 `;
 
-function App() {
+const App = () => {
 	const [toDos, setToDos] = useRecoilState(toDoState);
 	const onDragEnd = (info: DropResult) => {
-		// console.log(info);
+		console.log(info);
 		const { destination, draggableId, source } = info;
 		if (!destination) return;
-
 		if (destination?.droppableId === source.droppableId) {
 			// same board movement
 			setToDos((allBoards) => {
@@ -68,6 +67,6 @@ function App() {
 			</Wrapper>
 		</DragDropContext>
 	);
-}
+};
 
 export default App;
