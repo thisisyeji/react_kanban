@@ -1,17 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { Droppable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
 import DragabbleCard from './DragabbleCard';
+import styled from 'styled-components';
 import { ITodo, toDoState } from '../atoms';
 import { useSetRecoilState } from 'recoil';
 
 const Wrapper = styled.div`
 	width: 300px;
-	padding: 20px 10px;
-	padding-top: 10px;
+	min-height: 300px;
 	background-color: ${(props) => props.theme.boardColor};
 	border-radius: 5px;
-	min-height: 300px;
+	padding-top: 10px;
 
 	display: flex;
 	flex-direction: column;
@@ -25,8 +24,8 @@ const Title = styled.h2`
 `;
 
 interface IAreaProps {
-	isDraggingOver: boolean;
 	isDraggingFromThis: boolean;
+	isDraggingOver: boolean;
 }
 
 const Area = styled.div<IAreaProps>`
@@ -58,7 +57,7 @@ interface IForm {
 	toDo: string;
 }
 
-function Board({ toDos, boardId }: IBoardProps) {
+const Board = ({ toDos, boardId }: IBoardProps) => {
 	const setToDos = useSetRecoilState(toDoState);
 	const { register, setValue, handleSubmit } = useForm<IForm>();
 	const onValid = ({ toDo }: IForm) => {
@@ -69,11 +68,12 @@ function Board({ toDos, boardId }: IBoardProps) {
 		setToDos((allBoards) => {
 			return {
 				...allBoards,
-				[boardId]: [...allBoards[boardId], newToDo],
+				[boardId]: [newToDo, ...allBoards[boardId]],
 			};
 		});
 		setValue('toDo', '');
 	};
+
 	return (
 		<Wrapper>
 			<Title>{boardId}</Title>
@@ -99,14 +99,12 @@ function Board({ toDos, boardId }: IBoardProps) {
 								toDoText={toDo.text}
 							/>
 						))}
-
-						{/* placeholder: 드래그 하는 동안 영역을 고정시킴 */}
 						{magic.placeholder}
 					</Area>
 				)}
 			</Droppable>
 		</Wrapper>
 	);
-}
+};
 
 export default Board;
