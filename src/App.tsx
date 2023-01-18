@@ -21,6 +21,27 @@ const Boards = styled.div`
 	gap: 10px;
 `;
 
+const DeleteBox = styled.div`
+	width: 100px;
+	height: 50px;
+	background-color: white;
+	border-radius: 5px;
+	font-size: 24px;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	transition: 0.5s;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&:hover {
+		box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+		font-size: 28px;
+	}
+`;
+
 const App = () => {
 	const [toDos, setToDos] = useRecoilState(toDoState);
 	const onDragEnd = (info: DropResult) => {
