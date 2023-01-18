@@ -61,7 +61,10 @@ const App = () => {
 				};
 			});
 		}
-		if (destination.droppableId !== source.droppableId) {
+		if (
+			destination.droppableId !== source.droppableId &&
+			destination.droppableId !== 'trashBin'
+		) {
 			// cross board movement
 			setToDos((allBoards) => {
 				const sourceBoard = [...allBoards[source.droppableId]];
@@ -73,6 +76,17 @@ const App = () => {
 					...allBoards,
 					[source.droppableId]: sourceBoard,
 					[destination.droppableId]: destinationBoard,
+				};
+			});
+		}
+		if (destination.droppableId === 'trashBin') {
+			// delete toDo
+			setToDos((allBoards) => {
+				const sourceBoard = [...allBoards[source.droppableId]];
+				sourceBoard.splice(source.index, 1);
+				return {
+					...allBoards,
+					[source.droppableId]: sourceBoard,
 				};
 			});
 		}
