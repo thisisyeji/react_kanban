@@ -16,11 +16,38 @@ const Wrapper = styled.div`
 	flex-direction: column;
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
 	text-align: center;
-	font-weight: 600;
 	margin-bottom: 10px;
-	font-size: 18px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: relative;
+
+	h2 {
+		max-width: 80%;
+		margin-right: 10px;
+		font-weight: 600;
+		font-size: 18px;
+	}
+
+	button {
+		width: 20px;
+		height: 20px;
+		font-size: 12px;
+		color: #555;
+		border-radius: 50%;
+		border: 1px solid #555;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		position: absolute;
+		right: 5px;
+	}
 `;
 
 interface IAreaProps {
@@ -86,7 +113,11 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
 
 	return (
 		<Wrapper>
-			<Title>{boardId}</Title>
+			<Title>
+				<h2>{boardId}</h2>
+				<button onClick={deleteBoard}>X</button>
+			</Title>
+
 			<Form onSubmit={handleSubmit(onValid)}>
 				<input
 					{...register('toDo', { required: true })}
