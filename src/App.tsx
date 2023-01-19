@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -12,7 +13,6 @@ const Wrapper = styled.div`
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	margin: 0 auto;
 `;
 
 const Boards = styled.div`
@@ -45,6 +45,7 @@ const DeleteBox = styled.div`
 `;
 
 const App = () => {
+	const [name, setName] = useState('');
 	const [toDos, setToDos] = useRecoilState(toDoState);
 	const onDragEnd = (info: DropResult) => {
 		console.log(info);
@@ -93,23 +94,54 @@ const App = () => {
 			});
 		}
 	};
+
+	const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+		const value = e.currentTarget.value;
+		setName(value);
+	};
+
+	const createNewBoard = () => {
+		if (!name) return alert('Please write a name of board.');
+		setToDos((allBoards) => {
+			return {
+				...allBoards,
+				[name]: [],
+			};
+		});
+		setName('');
+	};
+
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<Wrapper>
-				<Boards>
-					{Object.keys(toDos).map((boardId) => (
-						<Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
-					))}
-				</Boards>
-			</Wrapper>
-			<Droppable droppableId='trashBin'>
-				{(magic) => (
-					<DeleteBox ref={magic.innerRef} {...magic.droppableProps}>
-						<FontAwesomeIcon icon={faTrashCan} />
-					</DeleteBox>
-				)}
-			</Droppable>
-		</DragDropContext>
+		<>
+			<div>
+				<input
+					type='text'
+					placeholder='Please write a name of board'
+					onChange={onChange}
+					value={name}
+					onKeyUp={(e) => {
+						if (e.key === 'Enter') createNewBoard();
+					}}
+				/>
+				<button onClick={createNewBoard}>Create</button>
+			</div>
+			<DragDropContext onDragEnd={onDragEnd}>
+				<Wrapper>
+					<Boards>
+						{Object.keys(toDos).map((boardId) => (
+							<Board key={boardId} boardId={boardId} toDos={toDos[boardId]} />
+						))}
+					</Boards>
+				</Wrapper>
+				<Droppable droppableId='trashBin'>
+					{(magic) => (
+						<DeleteBox ref={magic.innerRef} {...magic.droppableProps}>
+							<FontAwesomeIcon icon={faTrashCan} />
+						</DeleteBox>
+					)}
+				</Droppable>
+			</DragDropContext>
+		</>
 	);
 };
 
