@@ -74,6 +74,16 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
 		setValue('toDo', '');
 	};
 
+	const deleteBoard = () => {
+		setToDos((allBoards) => {
+			const boardsCopy = { ...allBoards };
+			delete boardsCopy[boardId];
+			return {
+				...boardsCopy,
+			};
+		});
+	};
+
 	return (
 		<Wrapper>
 			<Title>{boardId}</Title>
