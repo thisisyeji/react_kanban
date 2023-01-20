@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from './atoms';
@@ -34,8 +34,12 @@ const BoardBox = styled(Board)`
 	min-width: 300px;
 `;
 
+interface ITitle {
+	title: string;
+}
+
 const App = () => {
-	const [name, setName] = useState('');
+	const { register, handleSubmit, setValue } = useForm<ITitle>();
 	const [toDos, setToDos] = useRecoilState(toDoState);
 
 	const onDragEnd = (info: DropResult) => {
@@ -85,41 +89,32 @@ const App = () => {
 				};
 			});
 		}
+
+		// 보드 순서 변경 (보류)
 	};
 
-	const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-		const value = e.currentTarget.value;
-		setName(value);
-	};
-
-	const createNewBoard = () => {
-		if (!name) return alert('Please write a name of board.');
+	const onCreate = ({ title }: ITitle) => {
 		setToDos((allBoards) => {
 			return {
 				...allBoards,
-				[name]: [],
+				[title]: [],
 			};
 		});
-		setName('');
+		setValue('title', '');
 	};
 
 	return (
 		<Wrapper>
-			<InputBox>
+			<InputBox onSubmit={handleSubmit(onCreate)}>
 				<input
+					{...register('title', { required: true })}
 					type='text'
-					placeholder='Please write a name of board'
-					onChange={onChange}
-					value={name}
-					onKeyUp={(e) => {
-						if (e.key === 'Enter') createNewBoard();
-					}}
+					placeholder='Add a board here! ✏️'
 				/>
-				<button onClick={createNewBoard}>Create</button>
 			</InputBox>
 
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId={'boards'} type='boards'>
+				<Droppable droppableId='boards' type='boards'>
 					{(magic) => (
 						<Boards ref={magic.innerRef} {...magic.droppableProps}>
 							{Object.keys(toDos).map((boardId, index) => (
