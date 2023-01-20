@@ -16,9 +16,27 @@ const Wrapper = styled.div`
 	padding: 20px 0;
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
 	position: absolute;
-	top: 20px;
+	top: 25px;
+
+	input {
+		width: 250px;
+		height: 30px;
+		font-size: 20px;
+		font-style: italic;
+		text-align: center;
+		color: #fff;
+		background-color: transparent;
+		outline: none;
+		border: none;
+		border-bottom: 2px solid #fff;
+
+		&::placeholder {
+			color: #efefef;
+			font-size: 20px;
+		}
+	}
 `;
 
 const Boards = styled.div`
@@ -28,6 +46,7 @@ const Boards = styled.div`
 	flex-wrap: wrap;
 	width: 100%;
 	gap: 10px;
+	margin-top: 60px;
 `;
 
 const BoardBox = styled(Board)`
