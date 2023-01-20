@@ -76,6 +76,9 @@ const Form = styled.form`
 
 	input {
 		width: 100%;
+		border: none;
+		outline: none;
+		padding: 10px;
 	}
 `;
 
