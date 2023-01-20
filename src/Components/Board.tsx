@@ -28,18 +28,22 @@ const Title = styled.div`
 
 	h2 {
 		max-width: 80%;
-		margin-right: 10px;
+		color: #227623;
 		font-weight: 600;
-		font-size: 18px;
+		font-size: 20px;
+		letter-spacing: 2px;
+		margin-right: 10px;
 	}
 
 	button {
 		width: 20px;
 		height: 20px;
 		font-size: 12px;
-		color: #555;
+		color: #fff;
+		background-color: #a5cba7;
 		border-radius: 50%;
-		border: 1px solid #555;
+		border: none;
+		cursor: pointer;
 
 		display: flex;
 		justify-content: center;
