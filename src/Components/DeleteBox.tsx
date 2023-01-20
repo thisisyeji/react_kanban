@@ -7,6 +7,7 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
 	border-radius: 5px;
 	font-size: 24px;
+	color: #fff;
 	transition: 0.5s;
 	cursor: pointer;
 
@@ -16,10 +17,11 @@ const Wrapper = styled.div`
 
 	position: absolute;
 	right: 30px;
-	top: 20px;
+	top: 30px;
 
 	&:hover {
 		font-size: 28px;
+		transform: rotate(360deg);
 	}
 `;
 
