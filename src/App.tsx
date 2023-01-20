@@ -4,52 +4,43 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { toDoState } from './atoms';
 import Board from './Components/Board';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import DeleteBox from './Components/DeleteBox';
 
 const Wrapper = styled.div`
+	min-height: 100vh;
+	height: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 100vw;
-	height: 100vh;
+	padding: 20px 0;
+`;
+
+const InputBox = styled.div`
+	position: absolute;
+	top: 20px;
 `;
 
 const Boards = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
+	flex-wrap: wrap;
 	width: 100%;
 	gap: 10px;
 `;
 
-const DeleteBox = styled.div`
-	width: 100px;
-	height: 50px;
-	background-color: white;
-	border-radius: 5px;
-	font-size: 24px;
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
-	transition: 0.5s;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	&:hover {
-		box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-		font-size: 28px;
-	}
+const BoardBox = styled(Board)`
+	min-width: 300px;
 `;
 
 const App = () => {
 	const [name, setName] = useState('');
 	const [toDos, setToDos] = useRecoilState(toDoState);
+
 	const onDragEnd = (info: DropResult) => {
 		console.log(info);
-		const { destination, draggableId, source } = info;
+		const { destination, source } = info;
 		if (!destination) return;
 		if (destination?.droppableId === source.droppableId) {
 			// same board movement
@@ -82,6 +73,7 @@ const App = () => {
 				};
 			});
 		}
+
 		if (destination.droppableId === 'trashBin') {
 			// delete toDo
 			setToDos((allBoards) => {
@@ -112,8 +104,8 @@ const App = () => {
 	};
 
 	return (
-		<>
-			<div>
+		<Wrapper>
+			<InputBox>
 				<input
 					type='text'
 					placeholder='Please write a name of board'
@@ -124,24 +116,27 @@ const App = () => {
 					}}
 				/>
 				<button onClick={createNewBoard}>Create</button>
-			</div>
+			</InputBox>
+
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Wrapper>
-					<Boards>
-						{Object.keys(toDos).map((boardId) => (
-							<Board key={boardId} boardId={boardId} toDos={toDos[boardId]} />
-						))}
-					</Boards>
-				</Wrapper>
-				<Droppable droppableId='trashBin'>
+				<Droppable droppableId={'boards'} type='boards'>
 					{(magic) => (
-						<DeleteBox ref={magic.innerRef} {...magic.droppableProps}>
-							<FontAwesomeIcon icon={faTrashCan} />
-						</DeleteBox>
+						<Boards ref={magic.innerRef} {...magic.droppableProps}>
+							{Object.keys(toDos).map((boardId, index) => (
+								<BoardBox
+									key={boardId}
+									boardId={boardId}
+									toDos={toDos[boardId]}
+									index={index}
+								/>
+							))}
+						</Boards>
 					)}
 				</Droppable>
+
+				<DeleteBox boardId='trashBin' />
 			</DragDropContext>
-		</>
+		</Wrapper>
 	);
 };
 

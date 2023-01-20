@@ -29,11 +29,10 @@ interface IBoardProps {
 
 const DeleteBox = ({ boardId }: IBoardProps) => {
 	return (
-		<Droppable droppableId={boardId} type='trashBin'>
+		<Droppable droppableId={boardId}>
 			{(magic) => (
 				<Wrapper ref={magic.innerRef} {...magic.droppableProps}>
 					<FontAwesomeIcon icon={faTrashCan} />
-					{/* {magic.placeholder} */}
 				</Wrapper>
 			)}
 		</Droppable>
