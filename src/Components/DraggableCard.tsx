@@ -4,10 +4,11 @@ import styled from 'styled-components';
 
 const Card = styled.div<{ isDragging: boolean }>`
 	border-radius: 5px;
+	border: 1px solid #a2c08b;
 	background-color: ${(props) =>
-		props.isDragging ? '#74b9ff' : props.theme.cardColor};
+		props.isDragging ? '#e7f5db' : props.theme.cardColor};
 	box-shadow: ${(props) =>
-		props.isDragging ? '0px 2px 15px rgba(0,0,0,0.05)' : 'none'};
+		props.isDragging ? '5px 5px 15px rgba(0,0,0,0.2)' : 'none'};
 	padding: 10px;
 	margin-bottom: 5px;
 `;
