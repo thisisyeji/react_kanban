@@ -64,7 +64,7 @@ const Area = styled.div<IAreaProps>`
 		props.isDraggingOver
 			? '#dfe6e9'
 			: props.isDraggingFromThis
-			? '#b2bec3'
+			? '#ced1d3'
 			: 'transparent'};
 	flex-grow: 1;
 	transition: background-color 0.3s ease-in-out;
